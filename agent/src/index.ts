@@ -376,7 +376,7 @@ async function handlePluginImporting(plugins: string[]) {
         const importedPlugins = await Promise.all(
             plugins.map(async (plugin) => {
                 try {
-                    const importedPlugin:Plugin = await import(plugin);
+                    const importedPlugin: Plugin & { default?: Plugin } = await import(plugin);
                     const functionName =
                         plugin
                             .replace("@elizaos/plugin-", "")
@@ -614,6 +614,7 @@ export async function initializeClients(
     return clients;
 }
 
+// Creates a new agent runtime for each character passed in
 export async function createAgent(
     character: Character,
     token: string
